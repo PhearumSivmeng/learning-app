@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:demo/data/api/api_client.dart';
 import 'package:demo/data/models/partner_model.dart';
 import 'package:demo/data/models/user_active_model.dart';
@@ -23,7 +24,6 @@ class _MessagerScreenState extends State<MessagerScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getMessagers();
     getActiveUsers();
@@ -39,6 +39,7 @@ class _MessagerScreenState extends State<MessagerScreen> {
       if (response.status == "success") {
         setState(() {
           chatList = response.records ?? [];
+          print("Messagers: $chatList");
         });
       } else {
         print("Get Messagers Failed: ${response.msg}");
@@ -90,13 +91,14 @@ class _MessagerScreenState extends State<MessagerScreen> {
                         children: [
                           CircleAvatar(
                             radius: 30,
-                            backgroundImage:
-                                user.profile != null && user.profile!.isNotEmpty
-                                    ? NetworkImage(user.profile!
-                                        .replaceAll("localhost", "10.0.2.2"))
-                                    : const AssetImage(
-                                            "assets/images/profile-picture.png")
-                                        as ImageProvider,
+                            backgroundImage: (user.profile != null &&
+                                    user.profile!.isNotEmpty)
+                                ? CachedNetworkImageProvider(user.profile!
+                                    .replaceAll(
+                                        "192.168.70.70:8080", "10.0.2.2:8000"))
+                                : const AssetImage(
+                                        "assets/images/profile-picture.png")
+                                    as ImageProvider,
                           ),
                           // Green dot indicator for active users
                           Positioned(

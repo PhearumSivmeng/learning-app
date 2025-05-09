@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CourseCard extends StatelessWidget {
-  const CourseCard({super.key});
+  final String title;
+  final String shortDetails;
+  final String thumbnail;
+
+  const CourseCard({
+    super.key,
+    required this.title,
+    required this.shortDetails,
+    required this.thumbnail,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +30,9 @@ class CourseCard extends StatelessWidget {
               topLeft: Radius.circular(10),
               topRight: Radius.circular(10),
             ),
-            child: Image.asset(
-              'assets/images/e-learning.png', // Replace with your image path
+            child: Image.network(
+              thumbnail.replaceAll('192.168.70.70:8080',
+                  '10.0.2.2:8000'), // Replace with your image path
               width: double.infinity,
               height: 150,
               fit: BoxFit.cover,
@@ -35,8 +45,8 @@ class CourseCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Course Title
-                const Text(
-                  '100 Days of Code: The Complete Python Pro Bootcamp',
+                Text(
+                  title,
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -48,7 +58,7 @@ class CourseCard extends StatelessWidget {
 
                 // Course Author
                 Text(
-                  'Dr. Angela Yu, Developer and Lead...',
+                  'Dr. Neak IT, Developer and Lead...',
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.grey[700],
@@ -61,7 +71,7 @@ class CourseCard extends StatelessWidget {
                 Row(
                   children: [
                     const Text(
-                      '4.7',
+                      '4.0',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -82,7 +92,7 @@ class CourseCard extends StatelessWidget {
                     ),
                     const SizedBox(width: 4),
                     Text(
-                      '(339,400)',
+                      '(56)',
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey[600],
@@ -92,48 +102,6 @@ class CourseCard extends StatelessWidget {
                 ),
 
                 const SizedBox(height: 8),
-
-                // Course Price
-                const Row(
-                  children: [
-                    Text(
-                      '\$12.99',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    SizedBox(width: 8),
-                    Text(
-                      '\$74.99',
-                      style: TextStyle(
-                        fontSize: 12,
-                        decoration: TextDecoration.lineThrough,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 8),
-
-                // Bestseller Tag
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 4.0),
-                  decoration: BoxDecoration(
-                    color: Colors.yellow[700],
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: const Text(
-                    'Bestseller',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),

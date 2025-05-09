@@ -21,7 +21,7 @@ class CategoryCard extends StatelessWidget {
       ),
       elevation: 2,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -29,13 +29,13 @@ class CategoryCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.network(
-                imageUrl,
-                width: 75,
-                height: 45,
+                imageUrl.replaceAll('192.168.70.70:8080', '10.0.2.2:8000'),
+                width: 115,
+                height: 70,
                 fit: BoxFit.contain,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(width: 5),
             Text(
               title,
               style: const TextStyle(

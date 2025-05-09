@@ -120,6 +120,7 @@ class LoginScreen extends StatelessWidget {
                         });
 
                         if (response.status == "success") {
+    
                           Auth.instance.onSaveUser(userModel: response.records);
                           print("Login Successful: ${response.records}");
                           Navigator.pushAndRemoveUntil(

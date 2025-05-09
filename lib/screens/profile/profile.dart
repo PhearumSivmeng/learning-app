@@ -65,26 +65,14 @@ class _ProfilePageState extends State<ProfilePage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Profile Information',
+              '[ Profile Information ]',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(width: 10), // Add some space between text and logo
-            Container(
-              margin: EdgeInsets.only(right: MyTheme.addBarSpace),
-              child: CircleAvatar(
-                radius: 25,
-                backgroundColor: Colors.black,
-                child: CircleAvatar(
-                  radius: 24,
-                  backgroundImage: AssetImage('assets/images/e-learning.png'),
-                ),
               ),
             ),
           ],
@@ -112,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           image: DecorationImage(
                             image: _newCoverImage != null
                                 ? FileImage(File(_newCoverImage!.path))
-                                : NetworkImage(user.profileCover.replaceAll(
+                                : NetworkImage(user.profileCover!.replaceAll(
                                     "localhost", "10.0.2.2")) as ImageProvider,
                             fit: BoxFit.cover,
                           ),

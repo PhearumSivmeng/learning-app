@@ -1,76 +1,110 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class LearnCard extends StatelessWidget {
-  const LearnCard({super.key});
+  final String title;
+  final String thumbnail;
+  final int views;
+  final String profileInstructor;
+  final String instructor;
+
+  const LearnCard({
+    super.key,
+    required this.title,
+    required this.thumbnail,
+    required this.views,
+    required this.profileInstructor,
+    required this.instructor,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final random = Random();
+    int randomNumber = random.nextInt(60);
+
     return Card(
+      color: Colors.white,
+      elevation: 4,
+      margin: const EdgeInsets.all(12),
       child: Padding(
         padding: const EdgeInsets.all(16.0), // Add padding inside the Card
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(
+            Row(
               children: [
                 CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/e-learning.png'),
+                  backgroundImage: NetworkImage(profileInstructor.replaceAll(
+                      '192.168.70.70:8080', '10.0.2.2:8000')),
                   radius: 20,
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Text(
-                  'Princeton University',
-                  style: TextStyle(
-                    fontSize: 20,
+                  instructor,
+                  style: const TextStyle(
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
-            const Text(
-              'Computer Science: Programming with a Purpose',
-              style: TextStyle(
-                fontSize: 18,
+            const SizedBox(height: 12),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(
+                thumbnail.replaceAll('192.168.70.70:8080', '10.0.2.2:8000'),
+                height: 180,
+                width: double.infinity,
+                fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(height: 8),
-            LinearProgressIndicator(
-              value: 0.01,
-              backgroundColor: Colors.grey[300],
-              color: Colors.blue,
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Supplements for Lecture 1',
-              style: TextStyle(
+            const SizedBox(height: 12),
+            Text(
+              title,
+              style: const TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
+            Text('$views views'),
+            const SizedBox(height: 12),
             Row(
               children: [
                 ElevatedButton.icon(
-                  onPressed: () {
-                    // Handle reading button press
-                  },
-                  icon: const Icon(Icons.article),
-                  label: const Text('Reading'),
-                ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 20,
+                      ),
+                    ),
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.play_arrow,
+                      color: Colors.white,
+                    ),
+                    label: const Text(
+                      'Watch Now',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    )),
                 const SizedBox(width: 8),
                 ElevatedButton(
-                  onPressed: () {
-                    // Handle 10 min button press
-                  },
-                  child: const Text('10 min'),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle up next button press
-                  },
-                  child: const Text('Up Next'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey.shade400,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 20,
+                    ),
+                  ),
+                  onPressed: () {},
+                  child: Text(
+                    '$randomNumber min',
+                    style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ],
             ),

@@ -9,7 +9,7 @@ class UserModel {
   final String bio;
   final String profile;
   final String token;
-  final String profileCover;
+  final String? profileCover;
 
   UserModel({
     required this.id,
@@ -21,7 +21,7 @@ class UserModel {
     required this.bio,
     required this.profile,
     required this.token,
-    required this.profileCover,
+    this.profileCover,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -47,6 +47,6 @@ class UserModel {
         "bio": bio,
         "profile": profile,
         "token": token,
-        "profileCover": profileCover
+        "profileCover": profileCover ?? "",
       };
 }

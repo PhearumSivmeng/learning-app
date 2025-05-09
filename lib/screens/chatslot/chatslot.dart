@@ -45,7 +45,6 @@ class _ChatSlotScreenState extends State<ChatSlotScreen> {
     final db = await DB.instance.db;
     final result = await db.query(UserModel.tableName);
     final token = result[0]["token"];
-    print(result[0]['id']);
     currentUserId = int.parse(helper.decryptHelper(result[0]['id'].toString()));
 
     // print(helper.decryptHelper(result[0]['id'].toString()));

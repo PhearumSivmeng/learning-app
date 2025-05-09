@@ -2,6 +2,7 @@ import 'package:demo/auth/login.dart';
 import 'package:demo/core/auth.dart';
 import 'package:demo/data/models/user_model.dart';
 import 'package:demo/data/services/db_service.dart';
+import 'package:demo/screens/articles/article.dart';
 import 'package:flutter/material.dart';
 
 Widget buildMenuItem(
@@ -30,6 +31,13 @@ Widget buildMenuItem(
         case 1:
           break;
         case 2:
+          // Navigate to ProfileScreen when profile is clicked
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ArticleScreen(),
+            ),
+          );
           break;
         case 3:
           break;

@@ -1,10 +1,13 @@
 import 'package:demo/core/util/my_theme.dart';
+import 'package:demo/data/api/api_client.dart';
+import 'package:demo/data/models/page_detail_model.dart';
 import 'package:demo/screens/community/community.dart';
 import 'package:demo/screens/course/course.dart';
 import 'package:demo/screens/homescreen/home.dart';
 import 'package:demo/screens/menu/menu.dart';
 import 'package:demo/screens/messager/messager.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
@@ -14,6 +17,10 @@ class LandingScreen extends StatefulWidget {
 }
 
 class _LandingScreenState extends State<LandingScreen> {
+  late final http.Client client;
+  late final ApiClient apiClient;
+  PageDetailModel? _pageDetail;
+
   int _currentIndex = 0;
   final PageController _pageController = PageController();
 
@@ -32,6 +39,30 @@ class _LandingScreenState extends State<LandingScreen> {
     'Courses',
     'Menu'
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    client = http.Client();
+    apiClient = ApiClient(client: client);
+    getPageDetail();
+  }
+
+  getPageDetail() async {
+    try {
+      final response = await apiClient.onGetPageDetail(arg: {});
+      if (response.status == "success") {
+        setState(() {
+          _pageDetail = response.records!;
+          print(_pageDetail);
+        });
+      } else {
+        print("Fetch Data Failed: ${response.msg}");
+      }
+    } catch (e) {
+      print("An error occurred: $e");
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -203,24 +234,27 @@ class _LandingScreenState extends State<LandingScreen> {
       backgroundColor: MyTheme.bodyBackground,
       appBar: _currentIndex != 4
           ? AppBar(
-              shadowColor: const Color.fromARGB(255, 195, 50, 50),
               toolbarHeight: 70,
               backgroundColor: Colors.white,
-              leadingWidth: 65,
+              leadingWidth: 80,
               leading: Container(
                 margin: EdgeInsets.only(left: MyTheme.addBarSpace),
-                child: const SizedBox(
-                  width: 60,
+                child: SizedBox(
                   height: 60,
-                  child: CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.black,
-                    child: CircleAvatar(
-                      radius: 24,
-                      backgroundImage:
-                          AssetImage('assets/images/e-learning.png'),
-                    ),
-                  ),
+                  child: _pageDetail == null
+                      ? Center(
+                          child: CircularProgressIndicator()) // keep centered
+                      : Padding(
+                          padding: const EdgeInsets.all(7.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(3),
+                            child: Image.network(
+                              _pageDetail!.logo.replaceAll(
+                                  '192.168.70.70:8080', '10.0.2.2:8000'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
                 ),
               ),
               title: Text(

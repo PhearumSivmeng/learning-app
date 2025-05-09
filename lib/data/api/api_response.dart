@@ -4,6 +4,7 @@ class ApiResponse<T> {
   String? status;
   final int currentPage;
   final int lastPage;
+  int? count;
 
   ApiResponse({
     this.currentPage = 1,
@@ -11,5 +12,6 @@ class ApiResponse<T> {
     this.records,
     this.msg,
     this.status,
+    this.count,
   });
 }

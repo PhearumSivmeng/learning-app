@@ -62,7 +62,8 @@ class MenuScreen extends StatelessWidget {
                           radius: 30,
                           backgroundColor: Colors.white,
                           backgroundImage: NetworkImage(
-                            user.profile.replaceAll("localhost", "10.0.2.2"),
+                            user.profile.replaceAll(
+                                "192.168.70.70:8080", "10.0.2.2:8000"),
                           ),
                         ),
                         const SizedBox(width: 16),

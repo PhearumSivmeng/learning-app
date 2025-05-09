@@ -5,7 +5,8 @@ class CertificateCard extends StatelessWidget {
   final String detail;
   final String imageUrl;
 
-  const CertificateCard({super.key,
+  const CertificateCard({
+    super.key,
     required this.title,
     required this.detail,
     required this.imageUrl,
@@ -26,7 +27,7 @@ class CertificateCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
+            Image.network(
               imageUrl,
               width: 250,
               height: 175,
@@ -39,7 +40,8 @@ class CertificateCard extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                     softWrap: true,
                     overflow: TextOverflow.ellipsis, // Truncate if needed
                     maxLines: 1,

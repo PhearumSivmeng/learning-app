@@ -1,15 +1,11 @@
+import 'package:demo/data/models/slide_model.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class CarouselExample extends StatelessWidget {
-  final List<String> images = [
-    'https://www.simplilearn.com/ice9/free_resources_article_thumb/What_is_Data_Analysis.jpg',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNPJJqYm740HTSHZu-hNUdF8Gp1Ih1JswphQ&s',
-    'https://psomba.com/wp-content/uploads/2024/08/business-analytist.jpg',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAU3e5xiEUmtCmtK48BMmOPEI1rzKgg7uDqQ&s'
-  ];
+  final List<SlideModel> items;
 
-  CarouselExample({super.key});
+  const CarouselExample({super.key, required this.items});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +21,7 @@ class CarouselExample extends StatelessWidget {
           enableInfiniteScroll: true,
           viewportFraction: 0.8,
         ),
-        items: images.map((imageUrl) {
+        items: items.map((item) {
           return Builder(
             builder: (BuildContext context) {
               return Container(
@@ -34,7 +30,8 @@ class CarouselExample extends StatelessWidget {
                   color: Colors.amber,
                 ),
                 child: Image.network(
-                  imageUrl,
+                  item.thumbnail
+                      .replaceAll('192.168.70.70:8080', '10.0.2.2:8000'),
                   fit: BoxFit.cover,
                 ),
               );
