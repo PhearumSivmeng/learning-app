@@ -230,16 +230,16 @@ class ApiClient implements Api {
         throw Exception();
       }
       final body = json.decode(response.body);
-      if (body["records"] == null) {
-        throw Exception("Invalid response data");
-      }
 
-      final ChatModel chatData = ChatModel.fromJson(body["records"]);
+      // Create ChatModel from the entire body, not just body["records"]
+      final ChatModel chatData = ChatModel.fromJson(body);
 
       return ApiResponse<ChatModel>(
         status: body["status"] ?? "failed",
         records: chatData,
         msg: body["msg"] ?? "",
+        currentPage: body["currentPage"] ?? 1,
+        lastPage: body["lastPage"] ?? 1,
       );
     } catch (e) {
       rethrow;
@@ -431,6 +431,29 @@ class ApiClient implements Api {
       return ApiResponse<List<VideoModel>>(
         status: body["status"] ?? "failed",
         records: slideModels,
+        msg: body["msg"] ?? "",
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ApiResponse<Null>> onSendFeedback({Map? arg}) async {
+    try {
+      final response = await client.post(
+        Uri.parse("$kUrl/submit-feedback"),
+        headers: {"Content-Type": "application/json"},
+        body: await getParams(params: arg),
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception();
+      }
+
+      final body = json.decode(response.body);
+      return ApiResponse<Null>(
+        status: body["status"] ?? "failed",
         msg: body["msg"] ?? "",
       );
     } catch (e) {

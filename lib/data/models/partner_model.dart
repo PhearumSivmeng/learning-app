@@ -1,6 +1,6 @@
 class PartnerModel {
-  final int id;
-  final int roomId;
+  final String id;
+  final String roomId;
   final String partnerName;
   final String partnerProfile;
   final String date;

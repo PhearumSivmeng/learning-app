@@ -24,4 +24,5 @@ abstract class Api {
   Future<ApiResponse<PageDetailModel>> onGetPageDetail({Map? arg});
   Future<ApiResponse<List<QuestionModel>>> onGetQuestions({Map? arg});
   Future<ApiResponse<List<VideoModel>>> onGetCourseVideo({Map? arg});
+  Future<ApiResponse<Null>> onSendFeedback({Map? arg});
 }

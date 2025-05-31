@@ -3,6 +3,8 @@ import 'package:demo/core/auth.dart';
 import 'package:demo/data/models/user_model.dart';
 import 'package:demo/data/services/db_service.dart';
 import 'package:demo/screens/articles/article.dart';
+import 'package:demo/screens/feedback/feedback.dart';
+import 'package:demo/screens/instructors/instructor.dart';
 import 'package:flutter/material.dart';
 
 Widget buildMenuItem(
@@ -27,6 +29,13 @@ Widget buildMenuItem(
     onTap: () {
       switch (index) {
         case 0:
+          // Navigate to ProfileScreen when profile is clicked
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FeedbackScreen(),
+            ),
+          );
           break;
         case 1:
           break;
@@ -40,6 +49,14 @@ Widget buildMenuItem(
           );
           break;
         case 3:
+          // Navigate to ProfileScreen when profile is clicked
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => InstructorAgreementPage(),
+            ),
+          );
+
           break;
         case 4:
           break;

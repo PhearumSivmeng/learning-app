@@ -39,6 +39,8 @@ dependencies:
   cached_network_image:
   webview_flutter:
   flutter_html:
+  file_picker:
+  intl:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

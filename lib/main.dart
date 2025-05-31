@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
   Future<Widget> _determineStartScreen() async {
     final db = await DB.instance.db;
     final result = await db.query(UserModel.tableName);
+    
     print(result);
     if (result.isNotEmpty) {
       return LandingScreen();

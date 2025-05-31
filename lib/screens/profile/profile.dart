@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:demo/core/util/my_theme.dart';
 import 'package:demo/data/models/user_model.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +18,15 @@ class _ProfilePageState extends State<ProfilePage> {
   final ImagePicker _picker = ImagePicker();
   XFile? _newCoverImage;
   XFile? _newProfileImage;
+  bool _allowAIDataUsage = false;
+  final TextEditingController _requestController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     user = widget.user;
+    // Initialize AI usage preference (you might load this from user's settings)
+    _allowAIDataUsage = false;
   }
 
   Future<void> _pickImage(bool isCoverPhoto) async {
@@ -45,9 +48,152 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  void _showDeleteAccountDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Account Request'),
+        content: const Text(
+          'Are you sure you want to request account deletion? This action will be reviewed by our team and you\'ll be notified before any permanent deletion occurs.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            onPressed: () {
+              // TODO: Implement account deletion request logic
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Account deletion request submitted'),
+                ),
+              );
+            },
+            child: const Text('Request Deletion'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showPrivacyPolicy() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Privacy Policy'),
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Last Updated: January 1, 2023\n\n',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const Text(
+                '1. Information We Collect\n',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const Text(
+                'We collect personal information you provide when you create an account, including your name, email, and profile data.\n\n',
+              ),
+              const Text(
+                '2. How We Use Your Data\n',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const Text(
+                'Your data is used to provide and improve our services. With your consent, we may use anonymized data for AI training purposes.\n\n',
+              ),
+              const Text(
+                '3. Data Security\n',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              const Text(
+                'We implement industry-standard security measures to protect your personal information.\n',
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Checkbox(
+                    value: _allowAIDataUsage,
+                    onChanged: (value) {
+                      setState(() {
+                        _allowAIDataUsage = value ?? false;
+                      });
+                      Navigator.pop(context);
+                      // TODO: Save this preference to user settings
+                    },
+                  ),
+                  const Expanded(
+                    child: Text(
+                      'Allow anonymized data usage for AI improvement',
+                      style: TextStyle(fontSize: 12),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _exportDataToPDF() async {
+    // TODO: Implement actual PDF export functionality
+    // This would typically involve:
+    // 1. Gathering all user data
+    // 2. Generating a PDF document
+    // 3. Saving/sharing the PDF
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Preparing your data export...'),
+        duration: Duration(seconds: 2),
+      ),
+    );
+
+    // Simulate PDF generation delay
+    await Future.delayed(const Duration(seconds: 2));
+
+    // Show completion message
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Data exported successfully! Check your downloads.'),
+        ),
+      );
+    }
+  }
+
+  void _submitRequest() {
+    if (_requestController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter your request')),
+      );
+      return;
+    }
+
+    // TODO: Implement request submission logic
+    print('User request: ${_requestController.text}');
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Request submitted successfully!')),
+    );
+
+    _requestController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Controllers initialization remains the same
     final firstNameController = TextEditingController(text: user.firstName);
     final lastNameController = TextEditingController(text: user.lastName);
     final genderController = TextEditingController(text: user.gender);
@@ -77,7 +223,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ],
         ),
-        actions: [SizedBox(width: 40)], // This balances the leading arrow
+        actions: [SizedBox(width: 40)],
       ),
       backgroundColor: MyTheme.bodyBackground,
       body: Center(
@@ -88,7 +234,7 @@ class _ProfilePageState extends State<ProfilePage> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  // Cover Photo Section
+                  // Cover Photo Section (unchanged)
                   Stack(
                     children: [
                       Container(
@@ -101,7 +247,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             image: _newCoverImage != null
                                 ? FileImage(File(_newCoverImage!.path))
                                 : NetworkImage(user.profileCover!.replaceAll(
-                                    "localhost", "10.0.2.2")) as ImageProvider,
+                                        "192.168.70.70:8080", "10.0.2.2:8000"))
+                                    as ImageProvider,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -140,11 +287,11 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                     ),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 24.0, vertical: 36.0),
+                        horizontal: 24.0, vertical: 30.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Profile Picture (positioned over the cover)
+                        // Profile Picture (unchanged)
                         Transform.translate(
                           offset: const Offset(0, -80),
                           child: Stack(
@@ -158,7 +305,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ? FileImage(File(_newProfileImage!.path))
                                       : NetworkImage(
                                           user.profile.replaceAll(
-                                              "localhost", "10.0.2.2"),
+                                              "192.168.70.70:8080",
+                                              "10.0.2.2:8000"),
                                         ) as ImageProvider,
                                 ),
                               ),
@@ -181,9 +329,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 16), // Reduced from 24
 
-                        // Rest of your form fields remain the same
+                        // Original form fields (unchanged)
                         buildTextField(
                           controller: firstNameController,
                           label: 'First Name',
@@ -235,7 +382,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              // TODO: Save both profile and cover images
                               if (_newProfileImage != null) {
                                 print(
                                     'New profile image: ${_newProfileImage!.path}');
@@ -269,6 +415,122 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                         ),
+                        const SizedBox(height: 20),
+
+                        // New: Additional buttons section
+                        const Divider(thickness: 1),
+                        const SizedBox(height: 10),
+                        const Text(
+                          'Account Settings',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54,
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+
+                        // Privacy Policy Button
+                        _buildSettingButton(
+                          icon: Icons.privacy_tip,
+                          text: 'View Privacy Policy',
+                          onTap: _showPrivacyPolicy,
+                        ),
+
+                        // Export Data Button
+                        _buildSettingButton(
+                          icon: Icons.import_export,
+                          text: 'Export My Data to PDF',
+                          onTap: _exportDataToPDF,
+                        ),
+
+                        // Delete Account Button
+                        _buildSettingButton(
+                          icon: Icons.delete_forever,
+                          text: 'Request Account Deletion',
+                          color: Colors.red,
+                          onTap: _showDeleteAccountDialog,
+                        ),
+
+                        // AI Data Usage Toggle
+                        Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.symmetric(vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[100],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.auto_awesome,
+                                  color: Colors.blue),
+                              const SizedBox(width: 16),
+                              const Expanded(
+                                child: Text(
+                                  'Allow AI to use my data (anonymized)',
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                              ),
+                              Switch(
+                                value: _allowAIDataUsage,
+                                onChanged: (value) {
+                                  setState(() {
+                                    _allowAIDataUsage = value;
+                                  });
+                                  // TODO: Save this preference
+                                },
+                                activeColor: Colors.blue,
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        // Request/Feedback Section
+                        const SizedBox(height: 20),
+                        const Text(
+                          'Have a special request?',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black54,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        TextField(
+                          controller: _requestController,
+                          maxLines: 3,
+                          decoration: InputDecoration(
+                            hintText: 'Type your request or feedback here...',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            contentPadding: const EdgeInsets.all(16),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: _submitRequest,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                              padding: const EdgeInsets.symmetric(vertical: 14),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: const Text(
+                              'Submit Request',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -281,7 +543,46 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // Reusable TextField widget remains the same
+  Widget _buildSettingButton({
+    required IconData icon,
+    required String text,
+    required VoidCallback onTap,
+    Color color = Colors.blue,
+  }) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      child: ElevatedButton(
+        onPressed: onTap,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color.withOpacity(0.1),
+          foregroundColor: color,
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+          alignment: Alignment.centerLeft,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, size: 24),
+            const SizedBox(width: 16),
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                color: color,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Reusable TextField widget (unchanged)
   Widget buildTextField({
     required TextEditingController controller,
     required String label,

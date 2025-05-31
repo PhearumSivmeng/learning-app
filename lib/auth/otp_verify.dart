@@ -14,8 +14,31 @@ class OtpVerify extends StatefulWidget {
 
 class _EmailVerificationScreenState extends State<OtpVerify> {
   final TextEditingController _emailController = TextEditingController();
+  bool _agreedToTerms = false;
+
+  // GDPR-compliant user agreement text
+  final String gdprAgreementText =
+      """ By using this platform, you acknowledge and agree to the following terms:
+
+We may collect personal data such as your name, email address, device info, and usage behavior to deliver, maintain, and improve our services. This data is used for communication, analysis, technical support, and personalization.
+
+Your data is kept confidential and is only shared with trusted third parties when essential to provide our services. We do not sell your personal data.
+
+Under the General Data Protection Regulation (GDPR), you have the right to access, correct, delete, or restrict the use of your data. You may withdraw consent at any time.
+
+Continued use of the service after updates to this agreement indicates acceptance of the revised terms.
+
+By checking the box below, you give your informed and explicit consent to these terms. """;
+
 
   Future<void> _verifyOtp(String otp) async {
+    if (!_agreedToTerms) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('You must agree to the terms first')),
+      );
+      return;
+    }
+
     final client = http.Client();
     final apiClient = ApiClient(client: client);
 
@@ -48,7 +71,54 @@ class _EmailVerificationScreenState extends State<OtpVerify> {
     }
   }
 
+  void _showTermsDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Data Processing Agreement'),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(gdprAgreementText),
+                const SizedBox(height: 20),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _agreedToTerms,
+                      onChanged: (value) {
+                        setState(() {
+                          _agreedToTerms = value ?? false;
+                        });
+                        Navigator.pop(context);
+                      },
+                    ),
+                    const Text('I agree to the terms'),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _showOtpDialog() {
+    if (!_agreedToTerms) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('You must agree to the terms first')),
+      );
+      return;
+    }
+
     final List<TextEditingController> otpControllers =
         List.generate(6, (_) => TextEditingController());
 
@@ -158,6 +228,38 @@ class _EmailVerificationScreenState extends State<OtpVerify> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Terms agreement section
+                const Text(
+                  'Before proceeding, please review our data processing agreement:',
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 10),
+                TextButton(
+                  onPressed: _showTermsDialog,
+                  child: Text(
+                    'View Data Processing Agreement',
+                    style: TextStyle(color: Colors.blue.shade600),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Checkbox(
+                      value: _agreedToTerms,
+                      onChanged: (value) {
+                        setState(() {
+                          _agreedToTerms = value ?? false;
+                        });
+                      },
+                    ),
+                    const Text('I agree to the data processing terms'),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                const Divider(),
+                const SizedBox(height: 20),
+
+                // Email input section
                 const Text(
                   'Enter your email-address to receive a verification code:',
                   style: TextStyle(fontSize: 20.0, height: 1.25),
@@ -189,6 +291,15 @@ class _EmailVerificationScreenState extends State<OtpVerify> {
                             padding: const EdgeInsets.symmetric(vertical: 16),
                           ),
                           onPressed: () async {
+                            if (!_agreedToTerms) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        'You must agree to the terms first')),
+                              );
+                              return;
+                            }
+
                             try {
                               final response =
                                   await apiClient.onRequestOTP(arg: {

@@ -1,9 +1,9 @@
 class ChatModel {
   final int currentPage;
   final int lastPage;
-  final int userID;
+  final String userID;
   final String userImage;
-  final int partnerId;
+  final String partnerId;
   final String partnerImage;
   final String partnerName;
   final List<MessageModel> records;
@@ -23,9 +23,9 @@ class ChatModel {
     return ChatModel(
       currentPage: json['currentPage'] as int,
       lastPage: json['lastPage'] as int,
-      userID: json['userID'] as int,
+      userID: json['userID'] as String,
       userImage: json['userImage'] as String,
-      partnerId: json['partnerId'] as int,
+      partnerId: json['partnerId'] as String,
       partnerImage: json['partnerImage'] as String,
       partnerName: json['partnerName'] as String,
       records: (json['records'] as List)
@@ -49,8 +49,8 @@ class ChatModel {
 }
 
 class MessageModel {
-  final int id;
-  final int senderId;
+  final String id;
+  final String senderId;
   final String isRead;
   final String date;
   final String content;
@@ -66,20 +66,22 @@ class MessageModel {
     required this.date,
     required this.content,
     this.type,
-    required this.attachments,
+    this.attachments,
     this.lat,
     this.lng,
   });
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
     return MessageModel(
-      id: json['id'] as int,
-      senderId: json['senderId'] as int,
+      id: json['id'] as String,
+      senderId: json['senderId'] as String,
       isRead: json['isRead'] as String,
       date: json['date'] as String,
       content: json['content'] as String,
       type: json['type'] as String?,
-      attachments: Attachments.fromJson(json['attachments']),
+      attachments: json['attachments'] != null
+          ? Attachments.fromJson(json['attachments'])
+          : null,
       lat: json['lat'] != null ? (json['lat'] as num).toDouble() : null,
       lng: json['lng'] != null ? (json['lng'] as num).toDouble() : null,
     );

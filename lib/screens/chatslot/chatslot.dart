@@ -18,7 +18,7 @@ class ChatSlotScreen extends StatefulWidget {
 class _ChatSlotScreenState extends State<ChatSlotScreen> {
   final client = http.Client();
   ChatModel? chat;
-  int currentUserId = 0;
+  String currentUserId = "";
   Helper helper = Helper();
   final TextEditingController _message = TextEditingController();
 
@@ -45,7 +45,7 @@ class _ChatSlotScreenState extends State<ChatSlotScreen> {
     final db = await DB.instance.db;
     final result = await db.query(UserModel.tableName);
     final token = result[0]["token"];
-    currentUserId = int.parse(helper.decryptHelper(result[0]['id'].toString()));
+    currentUserId = result[0]['id'].toString();
 
     // print(helper.decryptHelper(result[0]['id'].toString()));
     // currentUserId = result[0]['id'];
@@ -69,7 +69,7 @@ class _ChatSlotScreenState extends State<ChatSlotScreen> {
     final db = await DB.instance.db;
     final result = await db.query(UserModel.tableName);
     final token = result[0]["token"];
-    currentUserId = int.parse(helper.decryptHelper(result[0]['id'].toString()));
+    currentUserId = result[0]['id'].toString();
 
     // print(helper.decryptHelper(result[0]['id'].toString()));
     // currentUserId = result[0]['id'];
@@ -84,16 +84,16 @@ class _ChatSlotScreenState extends State<ChatSlotScreen> {
 
       if (response.status == "success") {
         setState(() {
-          MessageModel newMessage = MessageModel(
-            id: -1,
-            senderId: 3,
-            isRead: "Yes",
-            date:
-                DateTime.now().toString(), // Capture the current date and time
-            content: _message.value.text,
-            attachments: null,
-          );
-          chat!.records.add(newMessage);
+          // MessageModel newMessage = MessageModel(
+          //   id: -1,
+          //   senderId: 3,
+          //   isRead: "Yes",
+          //   date:
+          //       DateTime.now().toString(), // Capture the current date and time
+          //   content: _message.value.text,
+          //   attachments: null,
+          // );
+          // chat!.records.add(newMessage);
         });
       } else {
         print("Get Messagers Failed: ${response.msg}");
@@ -116,8 +116,8 @@ class _ChatSlotScreenState extends State<ChatSlotScreen> {
             children: [
               CircleAvatar(
                 backgroundImage: (chat?.partnerImage.isNotEmpty ?? false)
-                    ? NetworkImage(
-                        chat!.partnerImage.replaceAll("localhost", "10.0.2.2"))
+                    ? NetworkImage(chat!.partnerImage
+                        .replaceAll("192.168.70.70:8080", "10.0.2.2:8000"))
                     : const AssetImage("assets/images/profile-picture.png")
                         as ImageProvider,
               ),
@@ -142,6 +142,9 @@ class _ChatSlotScreenState extends State<ChatSlotScreen> {
                     itemBuilder: (context, index) {
                       final message = chat!.records[index];
                       final isCurrentUser = message.senderId == currentUserId;
+                      print(message.senderId);
+
+                      print(currentUserId);
 
                       return Align(
                         alignment: isCurrentUser

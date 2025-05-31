@@ -135,7 +135,7 @@ class _MessagerScreenState extends State<MessagerScreen> {
                         lastMessage: chat.content ?? 'No messages',
                         time: chat.date ?? '',
                         imageUrl: chat.partnerProfile
-                            .replaceAll("localhost", "10.0.2.2"),
+                            .replaceAll("192.168.70.70:8080", "10.0.2.2:8000"),
                         unreadCount: chat.unreadCount ?? 0,
                         onTap: () {
                           Navigator.push(
