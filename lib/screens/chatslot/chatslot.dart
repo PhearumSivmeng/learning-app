@@ -117,7 +117,7 @@ class _ChatSlotScreenState extends State<ChatSlotScreen> {
               CircleAvatar(
                 backgroundImage: (chat?.partnerImage.isNotEmpty ?? false)
                     ? NetworkImage(chat!.partnerImage
-                        .replaceAll("192.168.70.70:8080", "10.0.2.2:8000"))
+                        .replaceAll("192.168.58.239:8080", "10.0.2.2:8000"))
                     : const AssetImage("assets/images/profile-picture.png")
                         as ImageProvider,
               ),

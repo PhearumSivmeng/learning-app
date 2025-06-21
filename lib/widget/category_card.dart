@@ -29,7 +29,7 @@ class CategoryCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.network(
-                imageUrl.replaceAll('192.168.70.70:8080', '10.0.2.2:8000'),
+                imageUrl.replaceAll('192.168.58.239:8080', '10.0.2.2:8000'),
                 width: 115,
                 height: 70,
                 fit: BoxFit.contain,

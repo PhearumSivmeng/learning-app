@@ -1,6 +1,7 @@
 import 'package:demo/core/util/my_theme.dart';
 import 'package:demo/data/api/api_client.dart';
 import 'package:demo/data/models/page_detail_model.dart';
+import 'package:demo/screens/ask-question/ask_question.dart';
 import 'package:demo/screens/community/community.dart';
 import 'package:demo/screens/course/course.dart';
 import 'package:demo/screens/homescreen/home.dart';
@@ -250,7 +251,7 @@ class _LandingScreenState extends State<LandingScreen> {
                             borderRadius: BorderRadius.circular(3),
                             child: Image.network(
                               _pageDetail!.logo.replaceAll(
-                                  '192.168.70.70:8080', '10.0.2.2:8000'),
+                                  '192.168.58.239:8080', '10.0.2.2:8000'),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -360,6 +361,28 @@ class _LandingScreenState extends State<LandingScreen> {
           });
         },
       ),
+      floatingActionButton: _currentIndex == 2
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        DataInsertScreen(), // Replace with your actual screen
+                  ),
+                );
+              },
+              backgroundColor: Colors.blue,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: const Icon(
+                Icons.question_mark,
+                color: Colors.white,
+              ),
+              tooltip: 'Ask a new question',
+            )
+          : null,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         items: <BottomNavigationBarItem>[

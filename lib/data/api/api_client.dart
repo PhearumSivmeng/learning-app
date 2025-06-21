@@ -6,6 +6,7 @@ import 'package:demo/data/api/api.dart';
 import 'package:demo/data/api/api_response.dart';
 import 'package:demo/data/models/category_model.dart';
 import 'package:demo/data/models/chat_model.dart';
+import 'package:demo/data/models/course_model.dart';
 import 'package:demo/data/models/page_detail_model.dart';
 import 'package:demo/data/models/partner_model.dart';
 import 'package:demo/data/models/question_model.dart';
@@ -14,6 +15,7 @@ import 'package:demo/data/models/technology_model.dart';
 import 'package:demo/data/models/user_active_model.dart';
 import 'package:demo/data/models/user_model.dart';
 import 'package:demo/data/models/video_model.dart';
+import 'package:demo/data/models/video_play_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -414,6 +416,62 @@ class ApiClient implements Api {
   Future<ApiResponse<List<VideoModel>>> onGetCourseVideo({Map? arg}) async {
     try {
       final response = await client.post(
+        Uri.parse("$kUrl/get-about-courses"),
+        headers: {"Content-Type": "application/json"},
+        body: await getParams(params: arg),
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception();
+      }
+
+      final body = json.decode(response.body);
+      final List<dynamic> records = body["records"] ?? [];
+      final List<VideoModel> slideModels =
+          records.map((record) => VideoModel.fromJson(record)).toList();
+
+      return ApiResponse<List<VideoModel>>(
+        status: body["status"] ?? "failed",
+        records: slideModels,
+        msg: body["msg"] ?? "",
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ApiResponse<List<CourseModel>>> onGetCourses({Map? arg}) async {
+    try {
+      final response = await client.post(
+        Uri.parse("$kUrl/get-courses"),
+        headers: {"Content-Type": "application/json"},
+        body: await getParams(params: arg),
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception();
+      }
+
+      final body = json.decode(response.body);
+      final List<dynamic> records = body["records"] ?? [];
+      final List<CourseModel> slideModels =
+          records.map((record) => CourseModel.fromJson(record)).toList();
+
+      return ApiResponse<List<CourseModel>>(
+        status: body["status"] ?? "failed",
+        records: slideModels,
+        msg: body["msg"] ?? "",
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ApiResponse<List<VideoModel>>> onGetVideos({Map? arg}) async {
+    try {
+      final response = await client.post(
         Uri.parse("$kUrl/get-all-videos"),
         headers: {"Content-Type": "application/json"},
         body: await getParams(params: arg),
@@ -455,6 +513,31 @@ class ApiClient implements Api {
       return ApiResponse<Null>(
         status: body["status"] ?? "failed",
         msg: body["msg"] ?? "",
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ApiResponse<VideoDetails>> getVideoDetails({Map? arg}) async {
+    try {
+      final response = await client.post(
+        Uri.parse("$kUrl/get-video-details"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(arg ?? {}),
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception('Failed to load video details');
+      }
+
+      final body = json.decode(response.body);
+
+      return ApiResponse<VideoDetails>(
+        status: body["status"] ?? "failed",
+        msg: body["msg"] ?? "",
+        records: VideoDetails.fromJson(body["record"]),
       );
     } catch (e) {
       rethrow;

@@ -26,7 +26,7 @@ class ArticleDetailScreen extends StatelessWidget {
             if (article.thumbnail.isNotEmpty)
               CachedNetworkImage(
                 imageUrl: article.thumbnail
-                    .replaceAll('192.168.70.70:8080', '10.0.2.2:8000'),
+                    .replaceAll('192.168.58.239:8080', '10.0.2.2:8000'),
                 width: double.infinity,
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(

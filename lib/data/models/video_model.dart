@@ -17,12 +17,14 @@ class VideoModel {
 
   factory VideoModel.fromJson(Map<String, dynamic> json) {
     return VideoModel(
-      id: json['id'],
-      title: json['title'],
-      thumbnail: json['thumbnail'],
-      views: json['views'],
-      profileInstructor: json['profile_instructor'],
-      instructor: json['instructor'],
+      id: json['id'] ?? "", // Fallback if null
+      title: json['title'] ?? "",
+      thumbnail: json['thumbnail'] ?? "",
+      views: json['views'] ?? 0, // Fallback to 0 if null
+      profileInstructor: json['profileInstructor'] ??
+          json['profile_instructor'] ??
+          "", // Handle both cases
+      instructor: json['instructor'] ?? "",
     );
   }
 

@@ -247,7 +247,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             image: _newCoverImage != null
                                 ? FileImage(File(_newCoverImage!.path))
                                 : NetworkImage(user.profileCover!.replaceAll(
-                                        "192.168.70.70:8080", "10.0.2.2:8000"))
+                                        "192.168.58.239:8000", "10.0.2.2:8000"))
                                     as ImageProvider,
                             fit: BoxFit.cover,
                           ),
@@ -305,7 +305,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ? FileImage(File(_newProfileImage!.path))
                                       : NetworkImage(
                                           user.profile.replaceAll(
-                                              "192.168.70.70:8080",
+                                              "192.168.58.239:8080",
                                               "10.0.2.2:8000"),
                                         ) as ImageProvider,
                                 ),

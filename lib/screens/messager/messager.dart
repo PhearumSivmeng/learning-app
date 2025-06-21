@@ -95,7 +95,7 @@ class _MessagerScreenState extends State<MessagerScreen> {
                                     user.profile!.isNotEmpty)
                                 ? CachedNetworkImageProvider(user.profile!
                                     .replaceAll(
-                                        "192.168.70.70:8080", "10.0.2.2:8000"))
+                                        "192.168.58.239:8080", "10.0.2.2:8000"))
                                 : const AssetImage(
                                         "assets/images/profile-picture.png")
                                     as ImageProvider,
@@ -135,7 +135,7 @@ class _MessagerScreenState extends State<MessagerScreen> {
                         lastMessage: chat.content ?? 'No messages',
                         time: chat.date ?? '',
                         imageUrl: chat.partnerProfile
-                            .replaceAll("192.168.70.70:8080", "10.0.2.2:8000"),
+                            .replaceAll("192.168.58.239:8080", "10.0.2.2:8000"),
                         unreadCount: chat.unreadCount ?? 0,
                         onTap: () {
                           Navigator.push(

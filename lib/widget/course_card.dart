@@ -31,7 +31,7 @@ class CourseCard extends StatelessWidget {
               topRight: Radius.circular(10),
             ),
             child: Image.network(
-              thumbnail.replaceAll('192.168.70.70:8080',
+              thumbnail.replaceAll('192.168.58.239:8080',
                   '10.0.2.2:8000'), // Replace with your image path
               width: double.infinity,
               height: 150,

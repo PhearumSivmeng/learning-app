@@ -63,7 +63,7 @@ class MenuScreen extends StatelessWidget {
                           backgroundColor: Colors.white,
                           backgroundImage: NetworkImage(
                             user.profile.replaceAll(
-                                "192.168.70.70:8080", "10.0.2.2:8000"),
+                                "192.168.58.239:8080", "10.0.2.2:8000"),
                           ),
                         ),
                         const SizedBox(width: 16),
@@ -107,8 +107,8 @@ class MenuScreen extends StatelessWidget {
                 child: ListView(
                   children: [
                     buildMenuItem(Icons.feedback, 'Feedback', 0, context),
-                    buildMenuItem(Icons.video_collection_rounded, 'Short Video',
-                        1, context),
+                    buildMenuItem(Icons.video_collection_rounded,
+                        'Favorite Course', 1, context),
                     buildMenuItem(Icons.article, 'Article', 2, context),
                     buildMenuItem(
                         Icons.assignment_ind_sharp, 'Instructor', 3, context),
@@ -116,7 +116,7 @@ class MenuScreen extends StatelessWidget {
                     buildMenuItem(Icons.info, 'About Us', 5, context),
                     buildMenuItem(
                         Icons.contact_support, 'Contact Us', 6, context),
-                    buildMenuItem(Icons.help, 'FAQ', 7, context),
+                    // buildMenuItem(Icons.help, 'FAQ', 7, context),
                     buildMenuItem(Icons.logout, 'Logout', 8, context),
                   ],
                 ),

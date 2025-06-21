@@ -1,4 +1,5 @@
 import 'package:demo/data/api/api_client.dart';
+import 'package:demo/data/models/course_model.dart';
 import 'package:demo/data/models/video_model.dart';
 import 'package:demo/widget/learnItem_component.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class CourseScreen extends StatefulWidget {
 class _CourseScreenState extends State<CourseScreen> {
   late final http.Client client;
   late final ApiClient apiClient;
-  List<VideoModel> _videos = [];
+  List<CourseModel> _videos = [];
   int page = 1;
 
   @override
@@ -27,7 +28,7 @@ class _CourseScreenState extends State<CourseScreen> {
 
   getCourses(page) async {
     try {
-      final response = await apiClient.onGetCourseVideo(arg: {
+      final response = await apiClient.onGetCourses(arg: {
         "limit": page * 10,
       });
       if (response.status == "success") {
@@ -51,10 +52,12 @@ class _CourseScreenState extends State<CourseScreen> {
           child: Column(
             children: _videos.map((item) {
               return LearnCard(
-                title: item.title,
+                tech: item.technologyId,
+                instructorId: item.instructorId,
+                title: item.technology,
                 thumbnail: item.thumbnail,
-                views: item.views,
-                profileInstructor: item.profileInstructor,
+                views: item.videosCount,
+                profileInstructor: item.profile,
                 instructor: item.instructor,
               );
             }).toList(),

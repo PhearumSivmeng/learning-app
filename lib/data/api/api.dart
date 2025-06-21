@@ -1,6 +1,7 @@
 import 'package:demo/data/api/api_response.dart';
 import 'package:demo/data/models/category_model.dart';
 import 'package:demo/data/models/chat_model.dart';
+import 'package:demo/data/models/course_model.dart';
 import 'package:demo/data/models/page_detail_model.dart';
 import 'package:demo/data/models/partner_model.dart';
 import 'package:demo/data/models/question_model.dart';
@@ -8,6 +9,7 @@ import 'package:demo/data/models/slide_model.dart';
 import 'package:demo/data/models/technology_model.dart';
 import 'package:demo/data/models/user_active_model.dart';
 import 'package:demo/data/models/video_model.dart';
+import 'package:demo/data/models/video_play_model.dart';
 
 abstract class Api {
   Future<ApiResponse> onLogin({Map? arg});
@@ -24,5 +26,8 @@ abstract class Api {
   Future<ApiResponse<PageDetailModel>> onGetPageDetail({Map? arg});
   Future<ApiResponse<List<QuestionModel>>> onGetQuestions({Map? arg});
   Future<ApiResponse<List<VideoModel>>> onGetCourseVideo({Map? arg});
+  Future<ApiResponse<List<VideoModel>>> onGetVideos({Map? arg});
+  Future<ApiResponse<List<CourseModel>>> onGetCourses({Map? arg});
+  Future<ApiResponse<VideoDetails>> getVideoDetails({Map? arg});
   Future<ApiResponse<Null>> onSendFeedback({Map? arg});
 }

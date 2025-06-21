@@ -2,28 +2,22 @@ import 'dart:math';
 
 import 'package:demo/data/api/api_client.dart';
 import 'package:demo/screens/course-detail/course_detail.dart';
+import 'package:demo/screens/video-detail/video_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class LearnCard extends StatelessWidget {
-  final String? tech;
-  final String? instructorId;
+class VideoitemComponent extends StatelessWidget {
+  final String id;
   final String title;
   final String thumbnail;
   final int views;
-  final String profileInstructor;
-  final String instructor;
 
-  const LearnCard({
-    super.key,
-    this.tech,
-    this.instructorId,
-    required this.title,
-    required this.thumbnail,
-    required this.views,
-    required this.profileInstructor,
-    required this.instructor,
-  });
+  const VideoitemComponent(
+      {super.key,
+      required this.id,
+      required this.title,
+      required this.thumbnail,
+      required this.views});
 
   @override
   Widget build(BuildContext context) {
@@ -39,24 +33,6 @@ class LearnCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(profileInstructor.replaceAll(
-                      '192.168.58.239:8080', '10.0.2.2:8000')),
-                  radius: 20,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  instructor,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.network(
@@ -75,25 +51,17 @@ class LearnCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 6),
-            Text('$views videos'),
+            Text('$views views'),
             const SizedBox(height: 12),
             Row(
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
-                    if (tech == null || instructorId == null) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content: Text('Course information is incomplete')),
-                      );
-                      return;
-                    }
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => CourseDetailScreen(
-                          tech: tech ?? "",
-                          instructorId: instructorId ?? "",
+                        builder: (_) => VideoDetailScreen(
+                          videoId: id,
                         ),
                       ),
                     );
@@ -104,7 +72,7 @@ class LearnCard extends StatelessWidget {
                     size: 24,
                   ),
                   label: const Text(
-                    'Enroll Now',
+                    'Watch Now',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -123,22 +91,7 @@ class LearnCard extends StatelessWidget {
                     elevation: 4,
                     shadowColor: Colors.black45,
                   ),
-                ),
-                const SizedBox(width: 8),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey.shade400,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
-                    ),
-                  ),
-                  onPressed: () {},
-                  child: Text(
-                    '$randomNumber students',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
+                )
               ],
             ),
           ],
