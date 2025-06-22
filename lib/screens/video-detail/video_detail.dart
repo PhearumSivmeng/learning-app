@@ -1,4 +1,5 @@
 // video_detail_screen.dart
+import 'package:demo/core/util/my_theme.dart';
 import 'package:demo/data/models/video_model.dart';
 import 'package:demo/data/models/video_play_model.dart';
 import 'package:demo/widget/videoItem_component.dart';
@@ -181,7 +182,11 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
         _details!.thumbnail.replaceAll("192.168.58.239:8080", "10.0.2.2:8000");
 
     return Scaffold(
-      appBar: AppBar(title: Text(_details!.title)),
+      appBar: AppBar(
+        title: Text(_details!.title),
+        backgroundColor: Colors.white,
+      ),
+      backgroundColor: MyTheme.bodyBackground,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -295,15 +300,33 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
             Row(
               children: [
                 IconButton(
-                  icon: const Icon(Icons.thumb_up_alt_outlined),
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.blue, // Button background color
+                  ),
+                  icon: const Icon(
+                    Icons.thumb_up_alt_outlined,
+                    color: Colors.white, // Icon color
+                  ),
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: const Icon(Icons.comment_outlined),
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                  ),
+                  icon: const Icon(
+                    Icons.comment_outlined,
+                    color: Colors.white,
+                  ),
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: const Icon(Icons.share_outlined),
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                  ),
+                  icon: const Icon(
+                    Icons.share_outlined,
+                    color: Colors.white,
+                  ),
                   onPressed: () {},
                 ),
               ],
@@ -328,7 +351,13 @@ class _VideoDetailScreenState extends State<VideoDetailScreen> {
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.send),
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                  ),
+                  icon: const Icon(
+                    Icons.send,
+                    color: Colors.white,
+                  ),
                   onPressed: _submitComment,
                 ),
               ],

@@ -46,22 +46,20 @@ class _CourseScreenState extends State<CourseScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Container(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: _videos.map((item) {
-              return LearnCard(
-                tech: item.technologyId,
-                instructorId: item.instructorId,
-                title: item.technology,
-                thumbnail: item.thumbnail,
-                views: item.videosCount,
-                profileInstructor: item.profile,
-                instructor: item.instructor,
-              );
-            }).toList(),
-          ),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: _videos.map((item) {
+            return LearnCard(
+              tech: item.technologyId,
+              instructorId: item.instructorId,
+              title: item.technology,
+              thumbnail: item.thumbnail,
+              views: item.videosCount,
+              profileInstructor: item.profile,
+              instructor: item.instructor,
+            );
+          }).toList(),
         ),
       ),
     );

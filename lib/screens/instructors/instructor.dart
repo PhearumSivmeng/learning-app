@@ -100,7 +100,10 @@ class _InstructorAgreementPageState extends State<InstructorAgreementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Instructor Agreement')),
+      appBar: AppBar(
+        title: const Text('Instructor Agreement'),
+        backgroundColor: Colors.white,
+      ),
       backgroundColor: MyTheme.bodyBackground,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -131,7 +134,20 @@ class _InstructorAgreementPageState extends State<InstructorAgreementPage> {
                   controller: _nameController,
                   decoration: const InputDecoration(
                     labelText: 'Full Name',
-                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(12)), // More rounded
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                    ),
                   ),
                   validator: (value) =>
                       value?.isEmpty ?? true ? 'Required' : null,
@@ -143,7 +159,20 @@ class _InstructorAgreementPageState extends State<InstructorAgreementPage> {
                   controller: _emailController,
                   decoration: const InputDecoration(
                     labelText: 'Email',
-                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(12)), // More rounded
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                    ),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) return 'Required';
@@ -161,7 +190,20 @@ class _InstructorAgreementPageState extends State<InstructorAgreementPage> {
                   controller: _phoneController,
                   decoration: const InputDecoration(
                     labelText: 'Phone',
-                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(12)), // More rounded
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                    ),
                   ),
                   keyboardType: TextInputType.phone,
                   validator: (value) =>
@@ -174,7 +216,20 @@ class _InstructorAgreementPageState extends State<InstructorAgreementPage> {
                   value: _selectedUniversity,
                   decoration: const InputDecoration(
                     labelText: 'University',
-                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(12)), // More rounded
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                    ),
                   ),
                   items: _universities
                       .map((uni) => DropdownMenuItem(
@@ -193,8 +248,21 @@ class _InstructorAgreementPageState extends State<InstructorAgreementPage> {
                 DropdownButtonFormField<String>(
                   value: _selectedEducation,
                   decoration: const InputDecoration(
-                    labelText: 'Education Level',
-                    border: OutlineInputBorder(),
+                    labelText: 'Education-Level',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(12)), // More rounded
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                    ),
                   ),
                   items: _educationLevels
                       .map((edu) => DropdownMenuItem(
@@ -214,7 +282,20 @@ class _InstructorAgreementPageState extends State<InstructorAgreementPage> {
                   controller: _dobController,
                   decoration: const InputDecoration(
                     labelText: 'Date of Birth',
-                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(12)), // More rounded
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                    ),
                     suffixIcon: Icon(Icons.calendar_today),
                   ),
                   readOnly: true,
@@ -229,7 +310,20 @@ class _InstructorAgreementPageState extends State<InstructorAgreementPage> {
                   controller: _descriptionController,
                   decoration: const InputDecoration(
                     labelText: 'Description (Teaching Experience, etc.)',
-                    border: OutlineInputBorder(),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(12)), // More rounded
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      borderSide: BorderSide(color: Colors.blue, width: 2),
+                    ),
                     alignLabelWithHint: true,
                   ),
                   maxLines: 4,
@@ -241,6 +335,10 @@ class _InstructorAgreementPageState extends State<InstructorAgreementPage> {
                 // CV File Upload
                 OutlinedButton(
                   onPressed: _pickCVFile,
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Colors.blue), // Blue border
+                    foregroundColor: Colors.blue, // Blue text
+                  ),
                   child: const Text('Upload CV (PDF/DOC)'),
                 ),
                 const SizedBox(height: 8),
@@ -272,8 +370,13 @@ class _InstructorAgreementPageState extends State<InstructorAgreementPage> {
                   child: ElevatedButton(
                     onPressed: _submitForm,
                     style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16)),
-                    child: const Text('Submit Agreement'),
+                      backgroundColor: Colors.blue, // Makes the button blue
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    child: const Text(
+                      'Apply Instructor',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ],
